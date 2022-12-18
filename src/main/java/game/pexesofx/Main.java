@@ -41,6 +41,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        System.out.println("Java fx client start");
         this.primaryStage = primaryStage;
         client = new ClientSelect();
         client.setMain(Main.this);
