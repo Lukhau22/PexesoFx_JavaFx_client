@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="820.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.pexesofx.ImageController">
+   <children>
+      <Label layoutX="328.0" layoutY="14.0" text="Pexeso" textFill="#2b261c">
+         <font>
+            <Font name="System Bold" size="48.0" />
+         </font>
+      </Label>
+      <Label fx:id="player1" layoutX="46.0" layoutY="86.0" prefHeight="22.0" prefWidth="143.0" text="Player1">
+         <font>
+            <Font name="Arial Black" size="18.0" />
+         </font></Label>
+      <Label fx:id="player2" layoutX="629.0" layoutY="86.0" prefHeight="22.0" prefWidth="133.0" text="Player2">
+         <font>
+            <Font name="Arial Black" size="18.0" />
+         </font></Label>
+      <ImageView fx:id="image00" fitHeight="133.0" fitWidth="133.0" layoutX="46.0" layoutY="145.0" onMouseClicked="#handleUnhidePicture00" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image01" fitHeight="133.0" fitWidth="160.0" layoutX="241.0" layoutY="145.0" onMouseClicked="#handleUnhidePicture01" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image10" fitHeight="133.0" fitWidth="160.0" layoutX="46.0" layoutY="300.0" onMouseClicked="#handleUnhidePicture10" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image11" fitHeight="133.0" fitWidth="160.0" layoutX="241.0" layoutY="300.0" onMouseClicked="#handleUnhidePicture11" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image02" fitHeight="133.0" fitWidth="160.0" layoutX="434.0" layoutY="145.0" onMouseClicked="#handleUnhidePicture02" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image12" fitHeight="133.0" fitWidth="160.0" layoutX="434.0" layoutY="300.0" onMouseClicked="#handleUnhidePicture12" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image03" fitHeight="133.0" fitWidth="160.0" layoutX="630.0" layoutY="145.0" onMouseClicked="#handleUnhidePicture03" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image13" fitHeight="133.0" fitWidth="160.0" layoutX="630.0" layoutY="300.0" onMouseClicked="#handleUnhidePicture13" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image20" fitHeight="133.0" fitWidth="160.0" layoutX="46.0" layoutY="453.0" onMouseClicked="#handleUnhidePicture20" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image21" fitHeight="133.0" fitWidth="160.0" layoutX="241.0" layoutY="453.0" onMouseClicked="#handleUnhidePicture21" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image22" fitHeight="133.0" fitWidth="160.0" layoutX="434.0" layoutY="453.0" onMouseClicked="#handleUnhidePicture22" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image23" fitHeight="133.0" fitWidth="160.0" layoutX="630.0" layoutY="453.0" onMouseClicked="#handleUnhidePicture23" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image30" fitHeight="133.0" fitWidth="160.0" layoutX="45.0" layoutY="606.0" onMouseClicked="#handleUnhidePicture30" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image31" fitHeight="133.0" fitWidth="160.0" layoutX="240.0" layoutY="606.0" onMouseClicked="#handleUnhidePicture31" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image32" fitHeight="133.0" fitWidth="160.0" layoutX="433.0" layoutY="606.0" onMouseClicked="#handleUnhidePicture32" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="image33" fitHeight="133.0" fitWidth="160.0" layoutX="629.0" layoutY="606.0" onMouseClicked="#handleUnhidePicture33" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@backside.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="whoPlay" alignment="CENTER_RIGHT" layoutX="622.0" layoutY="747.0" prefHeight="26.0" prefWidth="166.0" text="PLAY...">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="45.0" layoutY="110.0" prefHeight="27.0" prefWidth="57.0" text="score:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="630.0" layoutY="110.0" prefHeight="27.0" prefWidth="58.0" text="score:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="50.0" layoutY="67.0" prefHeight="22.0" prefWidth="143.0" text="You:">
+         <font>
+            <Font name="Arial Black" size="14.0" />
+         </font></Label>
+      <Label alignment="CENTER" layoutX="629.0" layoutY="68.0" prefHeight="20.0" prefWidth="133.0" text="Opponent:">
+         <font>
+            <Font name="Arial Black" size="14.0" />
+         </font></Label>
+      <Label fx:id="myScore" layoutX="101.0" layoutY="110.0" prefHeight="22.0" prefWidth="49.0" text="0">
+         <font>
+            <Font name="Arial Black" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="OpponentScore" layoutX="688.0" layoutY="110.0" prefHeight="22.0" prefWidth="49.0" text="0">
+         <font>
+            <Font name="Arial Black" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
