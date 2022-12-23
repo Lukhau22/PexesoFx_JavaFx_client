@@ -88,6 +88,12 @@ public class ImageController {
     @FXML
     private Label OpponentScore;
 
+    @FXML
+    public Label opponentDisconn;
+
+    @FXML
+    public Label OppConnect;
+
 
     private Main main;
 
@@ -113,8 +119,6 @@ public class ImageController {
     }
     @FXML
     public void handleUnhidePicture01(/*MouseEvent event*/) {
-        //Image image = new Image(getClass().getResourceAsStream("kosky.png"));
-        //image01.setImage(image);
         client.sendMove(0,1);
     }
 

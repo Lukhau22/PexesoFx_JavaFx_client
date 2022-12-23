@@ -1,6 +1,7 @@
 package game.pexesofx;
 
 import javafx.application.Platform;
+import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.net.*;
@@ -114,10 +115,9 @@ public class ClientSelect {
             selector = Selector.open();
 
             client = SocketChannel.open();
-            System.out.println("client try to connect on " + main.serverAddress + " address");
-
-            client.connect(new InetSocketAddress(main.serverAddress, 10000));//"127.0.0.1"
-            main.loginErrorLabel = "Invalid ip address";
+            System.out.println("client try to connect on address: " + main.serverAddress + " and port: " + main.port);
+            client.connect(new InetSocketAddress(main.serverAddress, main.port));//default: "127.0.0.1" "10000"
+            main.loginErrorLabel = "Invalid ip address or port";
 
             client.configureBlocking(false);
             System.out.println("Client conected");
@@ -272,8 +272,16 @@ public class ClientSelect {
                                             main.switchToLogin();
                                             state = State.LOGIN;
                                         }
-                                    }
-                                    else if (msgParam[0].equals(("JOIN"))) {
+                                    }else if (msgParam[0].equals(("RECONNECT"))) {
+                                        if (msgParam[1].equals("OK")) {
+                                            main.switchToGameImages();
+                                            state = State.WAITING;
+                                        }
+                                        else{
+                                            System.err.println("JOIN error");
+                                        }
+
+                                    } else if (msgParam[0].equals(("JOIN"))) {
                                         if (msgParam[1].equals("OK")) {
                                             state = State.WAITING;
                                         }
@@ -281,6 +289,31 @@ public class ClientSelect {
                                             System.err.println("JOIN error");
                                         }
 
+                                    } else if (msgParam[0].equals(("OPPONENT"))) {
+                                        if (msgParam[1].equals("DISCONNECTED")) {
+                                            imageController.opponentDisconn.setText("Opponent disconnected");
+                                            imageController.OppConnect.setText("Disconnect");
+                                            imageController.OppConnect.setTextFill(Color.RED);
+                                            state = State.WAITING;
+                                        }
+                                        else if(msgParam[1].equals("RECONNECTED")){
+                                            System.out.println("Reconnected read");
+                                            imageController.opponentDisconn.setText("");
+                                            imageController.OppConnect.setText("connect");
+                                            imageController.OppConnect.setTextFill(Color.GREEN);
+                                        }
+
+                                    }
+                                    else{
+                                        /*if(!msgParam[0].isEmpty()) {
+                                            main.switchToLogin();
+                                            main.loginErrorLabel = "Invalid msg from server (wrong server)";
+                                            try {
+                                                client.close();
+                                            } catch (IOException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }*/
                                     }
 
                                     Game.printGameMat(pexeso);

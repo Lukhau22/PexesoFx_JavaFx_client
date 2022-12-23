@@ -21,6 +21,9 @@ public class LoginWindowConntroller {
     @FXML
     public Label errorLabel;
 
+    @FXML
+    private TextField Port;
+
     public void setErrorLabel(String error) {
         this.errorLabel.setText(error);
     }
@@ -37,6 +40,13 @@ public class LoginWindowConntroller {
         }
         else{
             System.out.println("Client used default ip address 127.0.0.1");
+        }
+
+        if(!Port.getText().isEmpty()){
+            main.port =  Integer. valueOf(Port.getText());
+        }
+        else{
+            System.out.println("Client used default port 10000");
         }
 
         if(main.player_user_name.equals("")){

@@ -28,6 +28,8 @@ public class Main extends Application {
 
     public String serverAddress = "127.0.0.1";
 
+    public int port = 10000;
+
     ImageController images;
     private Stage primaryStage;
     public ClientSelect client;
