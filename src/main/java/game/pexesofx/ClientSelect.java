@@ -71,16 +71,15 @@ public class ClientSelect {
         LOGIN,
         AFTER_LOGIN,
         JOIN,
-
         JOIN_EVALUATION,
         ON_MOVE1,
         MOVE1_EVALUATION,
         ON_MOVE2,
         MOVE2_EVALUATION,
-
         WAITING,
-
-        ERROR, GAME_END
+        RECONNECT,
+        ERROR,
+        GAME_END
 
     }
 
@@ -188,14 +187,13 @@ public class ClientSelect {
                         }
                         else{
                             Platform.runLater(() -> {
-                                if (state == State.AFTER_LOGIN || state == State.JOIN_EVALUATION || state == State.MOVE1_EVALUATION || state == State.MOVE2_EVALUATION || state == State.WAITING || state == State.ON_MOVE1 || state == State.GAME_END) {
+                                if (state == State.AFTER_LOGIN || state == State.JOIN_EVALUATION || state == State.MOVE1_EVALUATION || state == State.MOVE2_EVALUATION || state == State.WAITING || state == State.ON_MOVE1 || state == State.RECONNECT || state == State.GAME_END) {
                                     System.out.println(serverMsg);
 
-                                    if (msgParam[0].equals("MOVE")) {
+                                    if (msgParam[0].equals("MOVE")) {//-----------------------------------------MOVE--------------------------------------------
                                         pexeso.exposeFieldMat(Integer.valueOf(msgParam[2]), Integer.valueOf(msgParam[3]), Integer.valueOf(msgParam[4]));
-
-                                            imageController.changePictures(Integer.valueOf(msgParam[2]), Integer.valueOf(msgParam[3]), Integer.valueOf(msgParam[4]));
-                                            imageController.updateFieldsGame(pexeso, state);
+                                        imageController.changePictures(Integer.valueOf(msgParam[2]), Integer.valueOf(msgParam[3]), Integer.valueOf(msgParam[4]));
+                                        //imageController.updateFieldsGame(pexeso, state);
 
                                         if (msgParam.length >= 6){
                                             if ((state == State.MOVE2_EVALUATION || state == State.WAITING) && msgParam[5].equals(("SCORE"))) {
@@ -223,14 +221,14 @@ public class ClientSelect {
                                                 }
                                             }
                                         }
-                                    } else if (msgParam[0].equals(("GAME_END"))) {
+                                    } else if (msgParam[0].equals(("GAME_END"))) {//---------------------------------------------GAME_END---------------------------------------
                                         System.out.println("Game end, your score is " + pexeso.getMyScore());
                                         state = State.GAME_END;
                                         pexeso.mat = Game.inicializationMat(pexeso.mat.length,pexeso.mat[0].length);
                                         pexeso.exposeMat = Game.inicializationExposeMat(pexeso.exposeMat.length,pexeso.exposeMat[0].length);
                                         main.switchToEndGame();
                                         //return;
-                                    } else if (msgParam[0].equals(("PLAY"))) {
+                                    } else if (msgParam[0].equals(("PLAY"))) {//----------------------------------------------PLAY-------------------------------------
                                         if(msgParam[1].equals("PLAY")){
                                             state = State.ON_MOVE1;
                                             imageController.whoPlay.setText("PLAY");
@@ -240,7 +238,7 @@ public class ClientSelect {
                                             imageController.whoPlay.setText("WAIT");
                                         }
                                         //return;
-                                    } else if (msgParam[0].equals(("GAME_START"))) {
+                                    } else if (msgParam[0].equals(("GAME_START"))) {//----------------------------------------GAME_START-----------------------------
                                         if(msgParam[1].equals("PLAY")){
                                             state = State.ON_MOVE1;
                                             main.switchToGameImages();
@@ -253,7 +251,7 @@ public class ClientSelect {
                                             imageController.whoPlay.setText("WAIT...");
                                             imageController.setPlayer2Name(msgParam[2]);
                                         }
-                                    } else if (msgParam[0].equals(("LOGIN"))) {
+                                    } else if (msgParam[0].equals(("LOGIN"))) {//--------------------------------------------LOGIN------------------------------------
                                         if (msgParam[1].equals("OK")) {
                                             main.loginOk();
                                             state = State.JOIN;
@@ -272,16 +270,35 @@ public class ClientSelect {
                                             main.switchToLogin();
                                             state = State.LOGIN;
                                         }
-                                    }else if (msgParam[0].equals(("RECONNECT"))) {
+                                    }else if (msgParam[0].equals(("RECONNECT"))) {//------------------------------RECONNECT------------------------
                                         if (msgParam[1].equals("OK")) {
                                             main.switchToGameImages();
-                                            state = State.WAITING;
+                                            state = State.RECONNECT;
                                         }
                                         else{
-                                            System.err.println("JOIN error");
+                                            System.err.println("RECONNECT error");
                                         }
 
-                                    } else if (msgParam[0].equals(("JOIN"))) {
+                                    }else if (msgParam[0].equals(("UNHIDE")) && state == State.RECONNECT) {//------------------------------UNHIDE FIELDS RECONNECT------------------------
+                                        if (msgParam.length >= 3) {
+                                            pexeso.permanetlyExposeFieldMat(Integer.valueOf(msgParam[1]), Integer.valueOf(msgParam[2]), Integer.valueOf(msgParam[3]));
+                                            imageController.changePictures(Integer.valueOf(msgParam[1]), Integer.valueOf(msgParam[2]), Integer.valueOf(msgParam[3]));
+                                        }
+                                        else{
+                                            System.err.println("UNHIDE error");
+                                        }
+
+                                    }
+                                    else if (msgParam[0].equals(("SCORE"))) {//------------------------------SCORE------------------------
+                                        if (msgParam.length >=2) {
+                                            imageController.setMyScore(msgParam[1]);
+                                            imageController.setOpponentScore(msgParam[2]);
+                                        }
+                                        else{
+                                            System.err.println("SCORE error");
+                                        }
+
+                                    }else if (msgParam[0].equals(("JOIN"))) {//------------------------------JOIN------------------------
                                         if (msgParam[1].equals("OK")) {
                                             state = State.WAITING;
                                         }
@@ -289,7 +306,7 @@ public class ClientSelect {
                                             System.err.println("JOIN error");
                                         }
 
-                                    } else if (msgParam[0].equals(("OPPONENT"))) {
+                                    } else if (msgParam[0].equals(("OPPONENT"))) {//------------------------------OPPONENT DISCONNECT------------------------
                                         if (msgParam[1].equals("DISCONNECTED")) {
                                             imageController.opponentDisconn.setText("Opponent disconnected");
                                             imageController.OppConnect.setText("Disconnect");
@@ -297,12 +314,10 @@ public class ClientSelect {
                                             state = State.WAITING;
                                         }
                                         else if(msgParam[1].equals("RECONNECTED")){
-                                            System.out.println("Reconnected read");
                                             imageController.opponentDisconn.setText("");
                                             imageController.OppConnect.setText("connect");
                                             imageController.OppConnect.setTextFill(Color.GREEN);
                                         }
-
                                     }
                                     else{
                                         /*if(!msgParam[0].isEmpty()) {
@@ -316,7 +331,7 @@ public class ClientSelect {
                                         }*/
                                     }
 
-                                    Game.printGameMat(pexeso);
+                                    //Game.printGameMat(pexeso);
                                     if (state == State.JOIN) {
                                        /* System.out.println("Insert JOIN to connect into the game:");
                                         main.loginOk(); //ovlivni Gui

@@ -221,14 +221,9 @@ public class ImageController {
         return OpponentScore.getText();
     }
 
-    public void updateFieldsGame(Game pexeso, ClientSelect.State state) {
+    /*public void updateFieldsGame(Game pexeso, ClientSelect.State state) {
 
-        if(state == ClientSelect.State.MOVE1_EVALUATION){
-
-        }
-
-
-    }
+    }*/
 
     public void initialize() {
 

@@ -48,6 +48,16 @@ public class Game {
         }
     }
 
+    public void permanetlyExposeFieldMat(int row, int col, int value) {
+        if(row < this.mat.length && col < this.mat.length){
+            this.mat[row][col]= value;
+            this.exposeMat[row][col] = 1;
+        }
+        else{
+            System.out.println("INVALID INDEX IN MATRIX");
+        }
+    }
+
     public void matMoveScore() {
 
         synchronized (this){
