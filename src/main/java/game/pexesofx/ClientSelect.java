@@ -289,13 +289,14 @@ public class ClientSelect {
                                         }
 
                                     }
-                                    else if (msgParam[0].equals(("SCORE"))) {//------------------------------SCORE------------------------
-                                        if (msgParam.length >=2) {
+                                    else if (msgParam[0].equals(("GAME_INFO"))) {//------------------------------SCORE------------------------
+                                        if (msgParam.length >=3) {
                                             imageController.setMyScore(msgParam[1]);
                                             imageController.setOpponentScore(msgParam[2]);
+                                            imageController.setPlayer2Name(msgParam[3]);
                                         }
                                         else{
-                                            System.err.println("SCORE error");
+                                            System.err.println("GAME_INFO error");
                                         }
 
                                     }else if (msgParam[0].equals(("JOIN"))) {//------------------------------JOIN------------------------
