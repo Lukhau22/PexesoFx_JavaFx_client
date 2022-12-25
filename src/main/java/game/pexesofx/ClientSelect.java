@@ -17,7 +17,7 @@ import static java.lang.Thread.sleep;
 
 public class ClientSelect {
 
-    public static final int PING_INTERVAL_MS = 2000;
+    public static final int PING_INTERVAL_MS = 20000;
     private String loginName;
     private Thread networkThread;
     private Main main;
@@ -193,7 +193,6 @@ public class ClientSelect {
                                     if (msgParam[0].equals("MOVE")) {//-----------------------------------------MOVE--------------------------------------------
                                         pexeso.exposeFieldMat(Integer.valueOf(msgParam[2]), Integer.valueOf(msgParam[3]), Integer.valueOf(msgParam[4]));
                                         imageController.changePictures(Integer.valueOf(msgParam[2]), Integer.valueOf(msgParam[3]), Integer.valueOf(msgParam[4]));
-                                        //imageController.updateFieldsGame(pexeso, state);
 
                                         if (msgParam.length >= 6){
                                             if ((state == State.MOVE2_EVALUATION || state == State.WAITING) && msgParam[5].equals(("SCORE"))) {
@@ -208,11 +207,11 @@ public class ClientSelect {
                                                 else{
                                                     imageController.setOpponentScore(msgParam[6]);
                                                 }
-                                                Game.printNumbersMat(pexeso.getMat());
-                                                Game.printNumbersMat(pexeso.getExposeMat());
-                                                Game.printGameMat(pexeso);
+                                                //Game.printNumbersMat(pexeso.getMat());
+                                                //Game.printNumbersMat(pexeso.getExposeMat());
+                                                //Game.printGameMat(pexeso);
                                             } else if ((state == State.MOVE2_EVALUATION || state == State.WAITING) && msgParam[5].equals(("NOT_SCORE"))) {
-                                                Game.printGameMat(pexeso);
+                                                //Game.printGameMat(pexeso);
 
                                                 System.out.println("YOU NOT SCORE");
                                                 pexeso.matMoveNotScore(imageController); // zmeni obrazky na unhide
@@ -274,6 +273,7 @@ public class ClientSelect {
                                         if (msgParam[1].equals("OK")) {
                                             main.switchToGameImages();
                                             state = State.RECONNECT;
+                                            imageController.whoPlay.setText("WAIT");
                                         }
                                         else{
                                             System.err.println("RECONNECT error");
@@ -312,6 +312,7 @@ public class ClientSelect {
                                             imageController.opponentDisconn.setText("Opponent disconnected");
                                             imageController.OppConnect.setText("Disconnect");
                                             imageController.OppConnect.setTextFill(Color.RED);
+                                            imageController.whoPlay.setText("WAIT");
                                             state = State.WAITING;
                                         }
                                         else if(msgParam[1].equals("RECONNECTED")){
@@ -363,53 +364,6 @@ public class ClientSelect {
                     }
 
                 }
-//                if (consoleKey.isReadable()) {
-//                    clientMSG = readMsg(consolePipe.source());
-//
-//                    System.out.println("wakeup");
-//                    if (!clientMSG.isEmpty()) {
-//                        if (state == State.JOIN || state == State.ON_MOVE1 || state == State.ON_MOVE2) {
-//                            if ((state == State.ON_MOVE1 || state == State.ON_MOVE2) && controlMoveMsg(clientMSG)) {
-//                                String param[] = clientMSG.split(" ");
-//
-//                                param[1] = param[1].replace("A", "0");
-//                                param[1] = param[1].replace("B", "1");
-//                                param[1] = param[1].replace("C", "2");
-//                                param[1] = param[1].replace("D", "3");
-//                                for (int i = 0; i < param.length; i++) {
-//                                    param[i] = "|" + param[i];
-//                                }
-//
-//                                param[0] = "MOVE" + param[0];
-//
-//                                clientMSG = String.join("", param);
-//                                System.out.println(clientMSG);
-//
-//                                if (state == State.ON_MOVE1) {
-//                                    state = State.MOVE1_EVALUATION;
-//                                } else if (state == State.ON_MOVE2) {
-//                                    state = State.MOVE2_EVALUATION;
-//                                }
-//                                //posilani---------------------------
-//                                clientMSG = clientMSG + "|\n";
-//                                toSendByteBuffer = encodeString(clientMSG);
-//                                client.write(toSendByteBuffer);
-//                            } else if (clientMSG.contains("MOVE") && !controlMoveMsg(clientMSG)) {
-//                                System.out.println("INVALID MOVE");
-//                                System.out.println("Insert new move:");
-//
-//                            } else if (clientMSG.contains("JOIN")) {
-//                                state = State.JOIN_EVALUATION;
-//                                //posilani---------------------------
-//                                clientMSG = clientMSG + "|\n";
-//                                toSendByteBuffer = encodeString(clientMSG);
-//                                client.write(toSendByteBuffer);
-//                            }
-//                        } else {
-//                            System.out.println("You are not on move");
-//                        }
-//                    }
-//                }
 
             }
         }
