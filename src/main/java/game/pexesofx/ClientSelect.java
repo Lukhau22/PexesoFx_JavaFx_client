@@ -197,7 +197,7 @@ public class ClientSelect {
                         }
                         else{
                             Platform.runLater(() -> {
-                                if (state == State.AFTER_LOGIN || state == State.JOIN_EVALUATION || state == State.MOVE1_EVALUATION || state == State.MOVE2_EVALUATION || state == State.WAITING || state == State.ON_MOVE1 || state == State.RECONNECT || state == State.GAME_END) {
+                                if (state == State.AFTER_LOGIN || state == State.JOIN_EVALUATION || state == State.MOVE1_EVALUATION || state == State.MOVE2_EVALUATION || state == State.WAITING || state == State.ON_MOVE1 ||state == State.ON_MOVE2 || state == State.RECONNECT || state == State.GAME_END) {
                                     System.out.println(serverMsg);
 
                                     if (msgParam[0].equals("MOVE")) {//-----------------------------------------MOVE--------------------------------------------
@@ -241,6 +241,9 @@ public class ClientSelect {
                                         if(msgParam[1].equals("PLAY")){
                                             state = State.ON_MOVE1;
                                             imageController.whoPlay.setText("PLAY");
+                                            if(msgParam.length == 3 && msgParam[2].equals("ON_MOVE2")){
+                                                state = State.ON_MOVE2;
+                                            }
                                         }
                                         else{
                                             state = State.WAITING;
