@@ -53,6 +53,7 @@ public class EndGameController {
 
     @FXML
     public void handleEndBotton(/*MouseEvent event*/) {
+        client.sendExit();
         System.exit(0);
     }
 

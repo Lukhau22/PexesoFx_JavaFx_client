@@ -24,6 +24,8 @@ public class ClientSelect {
     private ImageController imageController;
     private SocketChannel client;
 
+    private LogManager logManager;
+
     public void setMain(Main main) {
         this.main = main;
     }
@@ -39,10 +41,10 @@ public class ClientSelect {
                 ByteBuffer toSendByteBuffer = encodeString(clientMSG);
                 try {
                     client.write(toSendByteBuffer);
+                    logManager.outcomingMessage(clientMSG, state); //logManager
                 } catch (IOException e) {
                     throw new RuntimeException(e);// vyresit ze se nepodarilo zapsat
                 }
-                System.out.println("Send: "+ clientMSG);
                 if(state == State.ON_MOVE1){
                     state = State.MOVE1_EVALUATION;
                 }
@@ -58,6 +60,18 @@ public class ClientSelect {
         ByteBuffer toSendByteBuffer = encodeString(clientMSG);
         try {
             client.write(toSendByteBuffer);
+            logManager.outcomingMessage(clientMSG, state); //logManager
+        } catch (IOException e) {
+            throw new RuntimeException(e);// vyresit ze se nepodarilo zapsat
+        }
+    }
+
+    public void sendExit() {
+        String clientMSG= "EXIT|\n";
+        ByteBuffer toSendByteBuffer = encodeString(clientMSG);
+        try {
+            client.write(toSendByteBuffer);
+            logManager.outcomingMessage(clientMSG, state); //logManager
         } catch (IOException e) {
             throw new RuntimeException(e);// vyresit ze se nepodarilo zapsat
         }
@@ -100,7 +114,7 @@ public class ClientSelect {
     }
 
     public void connectionThread(){
-
+        this.logManager = new LogManager();
         System.out.println("client start!");
         String clientMSG;
         Selector selector = null;
@@ -121,12 +135,6 @@ public class ClientSelect {
             client.configureBlocking(false);
             System.out.println("Client conected");
 
-            Game.printNumbersMat(pexeso.getMat());
-            System.out.println();
-
-            Game.printGameMat(pexeso);
-            System.out.println();
-
             ByteBuffer buffer = ByteBuffer.allocate(256);
 
             readKey = client.register(selector, SelectionKey.OP_READ);
@@ -134,9 +142,9 @@ public class ClientSelect {
 
             if(state == State.LOGIN){
                 toSend = "LOGIN|" + loginName + "|\n"; //posilam login
-
                 toSendByteBuffer = encodeString(toSend);
                 client.write(toSendByteBuffer);
+                logManager.outcomingMessage(toSend, state); //logManager
                 state = State.AFTER_LOGIN;
             }
 
@@ -165,6 +173,7 @@ public class ClientSelect {
                     toSend = "PING|\n";
                     toSendByteBuffer = encodeString(toSend);
                     client.write(toSendByteBuffer);
+                    logManager.outcomingMessage(toSend, state); //logManager
                     nextPing = System.currentTimeMillis() + PING_INTERVAL_MS;
                     waitMs = PING_INTERVAL_MS;
                 }
@@ -176,12 +185,13 @@ public class ClientSelect {
 
                     final String serverMsgs = readMsg(client); // cteni zpravy ze socketu
 
-                    final String[] msgs = serverMsgs.split("\n");
+                    final String[] msgs = serverMsgs.split("\n");//-------------------------INCOMING MSG PARSER--------------------
 
                     for (int a = 0; a < msgs.length; a++) {// resi slouceni vice zprav
                         String serverMsg = msgs[a];
+                        logManager.incomingMessage(serverMsg, state);
 
-                        String[] msgParam = msgServerParser(serverMsg);
+                        String[] msgParam = msgServerParser(serverMsg);//------------PIPE PARSER-----------------
                         if (msgParam[0].equals("PING")) {
                            System.out.println(serverMsg);
                         }
@@ -335,23 +345,18 @@ public class ClientSelect {
 
                                     //Game.printGameMat(pexeso);
                                     if (state == State.JOIN) {
-                                       /* System.out.println("Insert JOIN to connect into the game:");
-                                        main.loginOk(); //ovlivni Gui
-                                        state = State.JOIN; //move1 a move2 psat s insert msg*/
-
                                         String toSendJoin = "JOIN|\n"; //posilam join
                                         try {
                                             client.write(stringToByteBuffer(toSendJoin));
+                                            logManager.outcomingMessage(toSendJoin, state); //logManager
                                             state = State.JOIN_EVALUATION;
                                         } catch (IOException e) {
                                             throw new RuntimeException(e);
                                         }
 
                                     } else if (state == State.JOIN_EVALUATION) {
-                                        System.out.println("Enter the position of the shelf to reveal it in the form of row space column:");
                                         state = State.ON_MOVE1;
                                     } else if (state == State.MOVE1_EVALUATION) {
-                                        System.out.println("Enter the position of the shelf to reveal it in the form of row space column:");
                                         state = State.ON_MOVE2;
                                     }
                                     else if (state == State.MOVE2_EVALUATION) {
