@@ -24,6 +24,8 @@ public class ClientSelect {
     private ImageController imageController;
     private SocketChannel client;
 
+    private int count_of_empty_msg;
+
     private LogManager logManager;
 
     public void setMain(Main main) {
@@ -78,8 +80,6 @@ public class ClientSelect {
     }
 
 
-
-
     public enum State{
 
         LOGIN,
@@ -130,7 +130,7 @@ public class ClientSelect {
             client = SocketChannel.open();
             System.out.println("client try to connect on address: " + main.serverAddress + " and port: " + main.port);
             client.connect(new InetSocketAddress(main.serverAddress, main.port));//default: "127.0.0.1" "10000"
-            main.loginErrorLabel = "Invalid ip address or port";
+
 
             client.configureBlocking(false);
             System.out.println("Client conected");
@@ -333,7 +333,26 @@ public class ClientSelect {
                                             imageController.OppConnect.setText("connect");
                                             imageController.OppConnect.setTextFill(Color.GREEN);
                                         }
+                                    }else if(msgParam[0].equals("")){
+                                        System.out.println("Empty Msg");
+                                        main.loginErrorLabel = "The server is unavailable";
+                                        if(count_of_empty_msg == 5) {
+                                            try {
+                                                client.close();
+                                            } catch (IOException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                            main.switchToLogin();
+                                        }
+                                        else{
+                                            count_of_empty_msg++;
+                                        }
                                     }
+
+                                    if(!msgParam[0].equals("")){
+                                        count_of_empty_msg = 0;
+                                    }
+
                                     else{
                                         /*if(!msgParam[0].isEmpty()) {
                                             main.switchToLogin();
