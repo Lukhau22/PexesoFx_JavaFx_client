@@ -271,8 +271,14 @@ public class ClientSelect {
                                             main.loginErrorLabel = "Login error.";
                                             state = State.LOGIN;
                                             if(msgParam[2].equals("DUPLICITY")){
+                                                try {
+                                                    client.close();
+                                                } catch (IOException e) {
+                                                    throw new RuntimeException(e);
+                                                }
                                                 main.loginErrorLabel = "The filled-in username is already used, select another.";
                                                 main.switchToLogin();
+
                                             }
                                             else{
                                                 main.switchToLogin();
@@ -336,7 +342,7 @@ public class ClientSelect {
                                     }else if(msgParam[0].equals("")){
                                         System.out.println("Empty Msg");
                                         main.loginErrorLabel = "The server is unavailable";
-                                        if(count_of_empty_msg == 5) {
+                                        if(count_of_empty_msg == 10) {
                                             try {
                                                 client.close();
                                             } catch (IOException e) {
