@@ -3,16 +3,16 @@ package game.pexesofx;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.nio.channels.*;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
-import java.util.Scanner;
 import java.util.Set;
-
-import static java.lang.Thread.sleep;
 
 
 public class ClientSelect {
