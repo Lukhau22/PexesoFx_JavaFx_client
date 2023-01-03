@@ -354,6 +354,14 @@ public class ClientSelect {
                                             count_of_empty_msg++;
                                         }
                                     }
+                                    else{
+                                        System.out.println("Unknow msg");
+                                        try {
+                                            client.close();
+                                        } catch (IOException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
 
                                     if(!msgParam[0].equals("")){
                                         count_of_empty_msg = 0;
