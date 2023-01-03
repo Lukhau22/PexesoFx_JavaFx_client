@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -139,7 +140,6 @@ public class ClientSelect {
 
             readKey = client.register(selector, SelectionKey.OP_READ);
 
-
             if(state == State.LOGIN){
                 toSend = "LOGIN|" + loginName + "|\n"; //posilam login
                 toSendByteBuffer = encodeString(toSend);
@@ -149,14 +149,30 @@ public class ClientSelect {
             }
 
         }
-        catch (IOException e) {
+        catch (ConnectException e) {
             if(state == State.LOGIN) {
                 Platform.runLater(() -> {
-                    main.loginError(e);
+                    System.out.println(e.getMessage());
+                    main.loginErrorLabel = "Conection to server failed.\nInvalid ip address, port or server not run.";
+                    main.switchToLogin();
                 });
                 state = State.ERROR;
                 return;
             }
+            throw new RuntimeException(e);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+//            if(state == State.LOGIN) {
+//                Platform.runLater(() -> {
+//                    e.printStackTrace();
+//                    System.out.println(e.getMessage());
+//                    main.loginErrorLabel = "Conection to server failed.\nInvalid ip address, port or server not run.";
+//                    main.switchToLogin();
+//                });
+//                state = State.ERROR;
+//                return;
+//            }
             throw new RuntimeException(e);
         }
 
@@ -367,17 +383,6 @@ public class ClientSelect {
                                         count_of_empty_msg = 0;
                                     }
 
-                                    else{
-                                        /*if(!msgParam[0].isEmpty()) {
-                                            main.switchToLogin();
-                                            main.loginErrorLabel = "Invalid msg from server (wrong server)";
-                                            try {
-                                                client.close();
-                                            } catch (IOException e) {
-                                                throw new RuntimeException(e);
-                                            }
-                                        }*/
-                                    }
 
                                     //Game.printGameMat(pexeso);
                                     if (state == State.JOIN) {

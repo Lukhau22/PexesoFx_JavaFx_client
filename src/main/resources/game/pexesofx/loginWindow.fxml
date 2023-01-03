@@ -26,7 +26,7 @@
       </Label>
       <TextField fx:id="ipAddress" layoutX="240.0" layoutY="154.0" />
       <TextField fx:id="userName" layoutX="240.0" layoutY="198.0" />
-      <Label fx:id="errorLabel" layoutX="48.0" layoutY="291.0" prefHeight="27.0" prefWidth="505.0" textFill="#ea0f12">
+      <Label fx:id="errorLabel" layoutX="48.0" layoutY="291.0" prefHeight="86.0" prefWidth="505.0" textFill="#ea0f12">
          <font>
             <Font size="18.0" />
          </font>
