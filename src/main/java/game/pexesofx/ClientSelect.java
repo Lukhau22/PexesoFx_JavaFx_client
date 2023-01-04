@@ -294,7 +294,6 @@ public class ClientSelect {
                                                 }
                                                 main.loginErrorLabel = "The filled-in username is already used, select another.";
                                                 main.switchToLogin();
-
                                             }
                                             else{
                                                 main.switchToLogin();
@@ -354,6 +353,18 @@ public class ClientSelect {
                                             imageController.opponentDisconn.setText("");
                                             imageController.OppConnect.setText("connect");
                                             imageController.OppConnect.setTextFill(Color.GREEN);
+                                        }
+                                    }else if (msgParam[0].equals(("INVALID_MSG"))) {//------------------------------INVALID USERNAME LONG------------------------
+                                        if (msgParam.length > 2) {
+                                            if (msgParam[1].equals("ERR") && msgParam[2].equals("SIZE_OF_PARAM") && state == State.AFTER_LOGIN) {
+                                                try {
+                                                    client.close();
+                                                } catch (IOException e) {
+                                                    throw new RuntimeException(e);
+                                                }
+                                                main.loginErrorLabel = "username is too long, maximum is 18 characters";
+                                                main.switchToLogin();
+                                            }
                                         }
                                     }else if(msgParam[0].equals("")){
                                         System.out.println("Empty Msg");
