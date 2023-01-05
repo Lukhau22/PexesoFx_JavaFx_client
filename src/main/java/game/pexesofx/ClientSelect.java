@@ -354,7 +354,16 @@ public class ClientSelect {
                                             imageController.OppConnect.setText("connect");
                                             imageController.OppConnect.setTextFill(Color.GREEN);
                                         }
-                                    }else if (msgParam[0].equals(("INVALID_MSG"))) {//------------------------------INVALID USERNAME LONG------------------------
+                                    } else if (msgParam[0].equals(("INVALID"))) {//------------------------------OPPONENT DISCONNECT------------------------
+                                        if (msgParam[1].equals("MSG") && msgParam[2].equals("OPPONENT") && msgParam[3].equals("DISCONNECTED")) {
+                                            imageController.opponentDisconn.setText("Opponent disconnected");
+                                            imageController.OppConnect.setText("Disconnect");
+                                            imageController.OppConnect.setTextFill(Color.RED);
+                                            imageController.whoPlay.setText("WAIT");
+                                            state = State.WAITING;
+                                        }
+                                    }
+                                    else if (msgParam[0].equals(("INVALID_MSG"))) {//------------------------------INVALID USERNAME LONG------------------------
                                         if (msgParam.length > 2) {
                                             if (msgParam[1].equals("ERR") && msgParam[2].equals("SIZE_OF_PARAM") && state == State.AFTER_LOGIN) {
                                                 try {
